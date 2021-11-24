@@ -5,7 +5,7 @@ import process from 'process';
 import axios, { Axios, AxiosInstance } from 'axios';
 import cheerio from 'cheerio';
 
-namespace Types {
+export namespace Types {
     
     export interface Character {
         name: string
@@ -62,7 +62,7 @@ namespace Types {
     // }
 }
 
-class Scraper {
+export class Scraper {
     baseUrl: string;
     axiosInst: AxiosInstance;
     constructor() {
