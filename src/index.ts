@@ -119,7 +119,7 @@ async function download (url:string, filepath:string): Promise<boolean> {
     if (!fs.existsSync(assetsPath)) {
         fs.mkdirSync(assetsPath);
     }
-    console.log(path.resolve(basePath));
+    console.log(`Output Directory: ${path.resolve(basePath)}`);
 
     // start of scraper
     const scraper = new Scraper();
