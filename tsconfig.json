@@ -7,7 +7,10 @@
         "sourceMap": true,
         "resolveJsonModule": true,
         "lib": ["es6", "dom"],
-        "esModuleInterop": true
+        "esModuleInterop": true,
+        "forceConsistentCasingInFileNames": true,
+        "importHelpers": true,
+        "strict": true
     },
     "include": [
         "src/**/*.ts"
