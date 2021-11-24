@@ -1,0 +1,21 @@
+{
+  "name": "cookie-run-scraper",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "start": "tsc && node dist/index.js",
+    "dev": "nodemon --watch src src/index.ts"
+  },
+  "devDependencies": {
+    "@types/cheerio": "^0.22.30",
+    "@types/node": "^16.11.10",
+    "nodemon": "^2.0.15",
+    "ts-node": "^10.4.0",
+    "typescript": "^4.5.2"
+  },
+  "dependencies": {
+    "axios": "^0.24.0",
+    "cheerio": "^1.0.0-rc.10"
+  }
+}
