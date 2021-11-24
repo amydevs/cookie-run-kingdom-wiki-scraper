@@ -129,7 +129,7 @@ async function download (url:string, filepath:string): Promise<boolean> {
     for (const index in allCharactersUrls) {
         const i = Number(index);
         const character = await scraper.getCharacter(allCharactersUrls[i]);
-        process.stdout.write(`\r${(((i+1)/allCharactersUrls.length)*100).toFixed(1)}% Done | Cookie ${i+1} of ${allCharactersUrls.length} | ${character.name}         `);
+        process.stdout.write(`\r\x1b[K${(((i+1)/allCharactersUrls.length)*100).toFixed(1)}% Done | Cookie ${i+1} of ${allCharactersUrls.length} | ${character.name}`);
 
         // debug
         // if (i == 4) {break}
