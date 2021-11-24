@@ -73,7 +73,8 @@ export class Scraper {
         const $ = cheerio.load((await this.axiosInst.get(`${this.baseUrl}/wiki/List_of_Cookies`)).data);
         const allCharacersUrls: string[] = [];
         $('.wikitable > tbody th > a:not(.image)').each((_, row) =>{
-            allCharacersUrls.push($(row).attr('href'));
+            const url = $(row).attr('href');
+            if (url) { allCharacersUrls.push(url); }
         }) 
         return allCharacersUrls;
     }
@@ -82,9 +83,9 @@ export class Scraper {
         const character:Types.Character = {
             name: $(".page-header__title#firstHeading").text().replace(/\t|\n/g, ''),
             type: $("[data-source='role']").children().last().text() as Types.CharacterType,
-            imagePath: $(".pi-image-thumbnail").attr('src').replace(/\/revision\/.*/, ""),
-            rarity: $("[data-source='rarity'] img").attr('alt').replace(/"/g, '') as Types.CharacterRarity,
-            probability: Types.getProbabilityFromRarity($("[data-source='rarity'] img").attr('alt').replace(/"/g, '') as Types.CharacterRarity)
+            imagePath: $(".pi-image-thumbnail").attr('src')?.replace(/\/revision\/.*/, "") || '',
+            rarity: $("[data-source='rarity'] img").attr('alt')?.replace(/"/g, '') as Types.CharacterRarity,
+            probability: Types.getProbabilityFromRarity($("[data-source='rarity'] img").attr('alt')?.replace(/"/g, '') as Types.CharacterRarity)
         };
         return character;
     }
@@ -147,7 +148,7 @@ async function download (url:string, filepath:string): Promise<boolean> {
         path.join(basePath, 'cookies.json'),
         JSON.stringify(allCharacters, null, 2),
         
-        function (err) {
+        function (err:Error) {
             if (err) {
                 console.error('Error');
             }
