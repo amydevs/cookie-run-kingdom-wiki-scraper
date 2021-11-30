@@ -30,6 +30,27 @@ export class Scraper {
         };
         return character;
     }
+
+    async getRarityChances(): Promise<Array<Types.RarityChances>> {
+        let rarities: Array<Types.RarityChances> = [];
+        const $ = cheerio.load((await this.axiosInst.get(`${this.baseUrl}/wiki/Gacha`)).data);
+        const table = $('.mw-parser-output > .wikitable').last();
+        
+        $(table).find("tr").each((i, e) => {
+            if (i != 0) {
+                const element = $(e);
+                const children = element.children().toArray();
+                rarities.push({
+                    rarity: $($(children[0]).find('a')).attr('title')?.replace(" Cookie", "") as Types.CharacterRarity,
+                    cookie: Number($(children[1]).text().replace("%", "")),
+                    soulstone: Number($(children[2]).text().replace("%", ""))
+                
+                } as Types.RarityChances)                
+            }  
+        })
+        return rarities;
+    }
+
     async download (url:string, filepath:string): Promise<boolean> {  
         const writer = fs.createWriteStream(path.resolve(filepath))
       
@@ -112,6 +133,13 @@ export namespace Types {
                 break;
         }
     }
+
+    export interface RarityChances {
+        rarity: CharacterRarity | null;
+        cookie: number;
+        soulstone: number;
+    }
+
     // export enum CharacterRarity {
     //     Special = 0.00,
     //     Common = 0.4197,
