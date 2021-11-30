@@ -26,7 +26,7 @@ export class Scraper {
             type: $("[data-source='role']").children().last().text() as Types.CharacterType,
             imagePath: $(".pi-image-thumbnail").attr('src')?.replace(/\/revision\/.*/, "") || '',
             rarity: $("[data-source='rarity'] img").attr('alt')?.replace(/"/g, '') as Types.CharacterRarity,
-            probability: Types.getProbabilityFromRarity($("[data-source='rarity'] img").attr('alt')?.replace(/"/g, '') as Types.CharacterRarity)
+            position: $("td[data-source='position']").text() as Types.CharacterPos
         };
         return character;
     }
@@ -51,14 +51,24 @@ export class Scraper {
 export namespace Types {
     
     export interface Character {
-        name: string
-        type: CharacterType
-        imagePath: string
-        probability: number
-        rarity: CharacterRarity
+        name: string;
+        type: CharacterType | null;
+        imagePath: string;
+        rarity: CharacterRarity | null;
+        position: CharacterPos | null;
     }
     
-    export type CharacterType = 'Ambush' | 'Bomber' | 'Charge' | 'Defense' | 'Healing' | 'Magic' | 'Ranged' | 'Support';
+    export type CharacterPos = "Rear" | "Middle" | "Front";
+
+    export type CharacterType =
+    | "Ambush"
+    | "Bomber"
+    | "Charge"
+    | "Defense"
+    | "Healing"
+    | "Magic"
+    | "Ranged"
+    | "Support";
     // enum CharacterType {
     //     Ambush,
     //     Bomber,
@@ -70,7 +80,14 @@ export namespace Types {
     //     Support
     // }
     
-    export type CharacterRarity = 'Special' | 'Common' | 'Rare' | 'Epic' | 'Legendary' | 'Ancient';
+    export type CharacterRarity =
+    | "Special"
+    | "Common"
+    | "Rare"
+    | "Epic"
+    | "Legendary"
+    | "Ancient";
+
 
     export function getProbabilityFromRarity(rarity: CharacterRarity): number {
         switch (rarity) {
